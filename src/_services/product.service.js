@@ -7,6 +7,7 @@ export const productService = {
     getById,
     updateProduct,
     delete: _delete,
+    getChartData:getChartData
     // addCategory,
     // getAllCategory
    // editUser
@@ -59,6 +60,14 @@ function getById(id) {
     };
 
     return fetch(`${config.invUrl}/product/byId/${id}`, requestOptions).then(handleResponse);
+}
+
+function getChartData() {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    return fetch(`${config.invUrl}/product/charts`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

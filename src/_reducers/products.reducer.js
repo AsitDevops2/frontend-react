@@ -50,6 +50,18 @@ export function products(state = {}, action) {
       return {
         product:action.product
       };
+      case productConstants.GETPRODUCTCHART_REQ:
+      return {
+        loading: true
+      };
+    case productConstants.GETPRODUCTCHART_SUCCESS:
+      return {        
+        products: action.products
+      };
+    case productConstants.GETPRODUCTCHART_FAILURE:
+      return { 
+        error: action.error
+      };
       
     default:
       return state

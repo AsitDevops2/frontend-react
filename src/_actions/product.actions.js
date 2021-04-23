@@ -8,7 +8,8 @@ export const productActions = {
     getAll,
     getById,
     updateProduct,
-    delete: _delete
+    delete: _delete,
+    getChartData:getChartData
 };
 
 
@@ -107,4 +108,20 @@ function getById(id) {
     function request() { return { type: productConstants. GETBYID_REQUEST } }
     function success(product) { return { type: productConstants. GETBYID_SUCCESS, product } }
     function failure(error) { return { type: productConstants. GETBYID_FAILURE, error } }
+}
+
+function getChartData() {
+    return dispatch => {
+        dispatch(request());
+
+        productService.getChartData()
+            .then(
+                products => dispatch(success(products)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+    
+    function request() { return { type: productConstants.GETPRODUCTCHART_REQ } }
+    function success(products) { return { type: productConstants.GETPRODUCTCHART_SUCCESS, products } }
+    function failure(error) { return { type: productConstants.GETPRODUCTCHART_FAILURE, error } }
 }
