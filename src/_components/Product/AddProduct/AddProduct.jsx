@@ -42,7 +42,38 @@ class AddProduct extends React.Component {
     validate(){
         let input = this.state.product;
         let errors = {};
-        let isValid = true;   
+        let isValid = true;
+        
+        if (typeof input["name"] !== "undefined") {            
+            var pattern = new RegExp(/^[a-zA-Z]{2,}.[a-zA-Z0-9$]*/);
+            // var pattern = new RegExp(/^[a-zA-Z].{3,}[a-zA-Z0-9$]+$/);
+            if (!pattern.test(input["name"])) {
+              isValid = false;
+              errors["name"] = "Please enter valid name.";
+            }
+        }
+
+        if (typeof input["supplier"] !== "undefined") {            
+            var pattern = new RegExp(/[^a-zA-Z]*/);
+            if (!pattern.test(input["supplier"])) {
+              isValid = false;
+              errors["supplier"] = "Please enter valid supplier.";
+            }
+        }
+        if (typeof input["description"] !== "undefined") {            
+            var pattern = new RegExp(/[^a-zA-Z]*/);
+            if (!pattern.test(input["description"])) {
+              isValid = false;
+              errors["description"] = "Please enter valid description.";
+            }
+        }
+        if (typeof input["brand"] !== "undefined") {            
+            var pattern = new RegExp(/[^a-zA-Z]*/);
+            if (!pattern.test(input["brand"])) {
+              isValid = false;
+              errors["brand"] = "Please enter valid brand.";
+            }
+        }
         
         if ( typeof input["quantity"] !== "undefined") {
             if(this.state.product.quantity==0){
@@ -70,8 +101,7 @@ class AddProduct extends React.Component {
         this.setState({ submitted: true });
         const { product } = this.state;
         if (product.name && product.supplier && product.description && product.category && this.validate()) {
-            this.props.add(product);
-            // console.log(product);   
+            this.props.add(product); 
         }      
     }
     
@@ -101,6 +131,7 @@ class AddProduct extends React.Component {
                             {submitted && !product.name &&
                                 <div className="text-danger">Name is required</div>
                             }
+                            <div className="text-danger">{this.state.errors.name}</div>
                         </div>
                         <div className={'col-md-5 form-group' + (submitted && !product.brand ? ' has-error' : '')}>
                             <label htmlFor="brand">Brand</label>
@@ -108,8 +139,8 @@ class AddProduct extends React.Component {
                             {submitted && !product.brand &&
                                 <div className="text-danger">Brand is required</div>
                             }
-                        </div>
-                    
+                            <div className="text-danger">{this.state.errors.brand}</div>   
+                        </div>                 
                     </div>
                     <div className="row" style={alignment}>
                        
@@ -119,6 +150,7 @@ class AddProduct extends React.Component {
                             {submitted && !product.description &&
                                 <div className="text-danger">Product Description is required</div>
                             }
+                            <div className="text-danger">{this.state.errors.description}</div>
 
                         </div>
                         <div className={'col-md-5 form-group' + (submitted && !product.quantity ? ' has-error' : '')}>
@@ -144,12 +176,6 @@ class AddProduct extends React.Component {
                         </div>
                         <div className={'col-md-5 form-group' + (submitted && !product.category ? ' has-error' : '')}>
                             <label htmlFor="category">Category</label>
-                            {/* <select className="form-control" name="category" onChange={this.handleChange}>
-                                <option value="">Choose Category</option>
-                                <option value="Electronics">Electronics</option>
-                                <option value="Mobiles">Mobiles</option>
-                                <option value="Appliances">Appliances</option>
-                            </select>                  */}
                             {<select className="form-control" name="category" value={product.category} onChange={this.handleChange}>
                                 <option value="">Choose Category</option>
                                 {optionItems}
@@ -167,7 +193,9 @@ class AddProduct extends React.Component {
                             {submitted && !product.supplier &&
                                 <div className="text-danger">Supplier is required</div>
                             }
+                            <div className="text-danger">{this.state.errors.supplier}</div>
                         </div>
+                        
                         <div className="col-md-5 form-group">
                         <div style={{marginTop: "10%"}}></div>
                         <button className="btn btn-success">Save</button>&nbsp;&nbsp;
@@ -184,7 +212,6 @@ function mapState(state) {
     const { registering } = state.registration;
     const { categories } = state;
     return { categories };
-//    return { registering };
 }
 
 const actionCreators = {

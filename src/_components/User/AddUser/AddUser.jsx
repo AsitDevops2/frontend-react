@@ -23,7 +23,7 @@ class AddUser extends React.Component {
                 addr1:'',
                 addr2:'',
                 role:'',
-                parentId:loggedUser.id
+                parent:loggedUser.id
             },
             submitted: false,
             errors: {}
@@ -87,18 +87,11 @@ class AddUser extends React.Component {
     }
     handleSubmit(event) {
         event.preventDefault();
-
         this.setState({ submitted: true });
         const { user } = this.state;
         if (user.firstName && user.lastName && user.email && user.password && user.pin && this.validate()) {
-            this.props.register(user);
-            // this.props.history.push('/');
-            // window.location.reload ();          
+            this.props.register(user);         
         }
-        
-        
-        // this.redirect();
-       
     }
     
 
@@ -203,7 +196,8 @@ class AddUser extends React.Component {
                                 <option value="">Choose State</option>
                                 <option value="Maharastra">Maharastra</option>
                                 <option value="Goa">Goa</option>
-                            </select>                         {submitted && !user.state &&
+                            </select>                         
+                            {submitted && !user.state &&
                                 <div className="text-danger">State is required</div>
                             }
                         </div>
@@ -213,7 +207,8 @@ class AddUser extends React.Component {
                                 <option value="">Choose City</option>
                                 <option value="Pune">Pune</option>
                                 <option value="Mumbai">Mumbai</option>
-                            </select>                         {submitted && !user.city &&
+                            </select>                         
+                            {submitted && !user.city &&
                                 <div className="text-danger">City is required</div>
                             }
                         </div>

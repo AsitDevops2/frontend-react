@@ -12,7 +12,8 @@ class AddCategory extends React.Component {
                 description:''
                 
             },
-            submitted: false
+            submitted: false,
+            errors: {}
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -29,13 +30,41 @@ class AddCategory extends React.Component {
             }
         });
     }
+
+    validate(){
+        let input = this.state.category;
+        let errors = {};
+        let isValid = true; 
+        
+        if (typeof input["name"] !== "undefined") {            
+            var pattern = new RegExp(/[^a-zA-Z]*/);
+            if (!pattern.test(input["name"]) && !input["name"].length < 3) {
+              isValid = false;
+              errors["name"] = "Please enter valid name.";
+            }
+        }
+
+        if (typeof input["description"] !== "undefined") {            
+            var pattern = new RegExp(/[^a-zA-Z]*/);
+            if (!pattern.test(input["description"]) && !input["description"].length < 3) {
+              isValid = false;
+              errors["description"] = "Please enter valid description.";
+            }
+        }
+        
+        this.setState({
+          errors: errors
+        });
+    
+        return isValid;
+    }
    
     handleSubmit(event) {
         event.preventDefault();
 
         this.setState({ submitted: true });
         const { category } = this.state;
-        if (category.name && category.description) {
+        if (category.name && category.description && this.validate()) {
             this.props.add(category);    
         }      
     }
@@ -52,19 +81,21 @@ class AddCategory extends React.Component {
                 <div><h2>Add Category</h2></div><br/>
                 <form name="form" onSubmit={this.handleSubmit} noValidate>
                     <div className="row">
-                        <div className={'col-md-6 form-group' + (submitted && ! category.name )}>
+                        <div className={'col-md-6 form-group' + (submitted && ! ! category.name ? ' has-error' : '' )}>
                             <label htmlFor="name">Name</label>
                             <input type="text" className="form-control" name="name" onChange={this.handleChange} required />
                             {submitted && !category.name &&
                                 <div className="text-danger">Name is required</div>
                             }
+                            <div className="text-danger">{this.state.errors.name}</div>
                         </div>
-                        <div className={'col-md-6 form-group' + (submitted && !category.description )}>
+                        <div className={'col-md-6 form-group' + (submitted && !category.description ? ' has-error' : '' )}>
                             <label htmlFor="description">Description</label>
                             <input type="text" className="form-control" name="description" onChange={this.handleChange} required />
                             {submitted && !category.description &&
                                 <div className="text-danger">Description is required</div>
                             }
+                            <div className="text-danger">{this.state.errors.description}</div>
                         </div>
                     
                     </div>

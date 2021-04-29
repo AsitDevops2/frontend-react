@@ -60,7 +60,16 @@ class EditProduct extends React.Component {
     validate(){
         let input = this.state.product;
         let errors = {};
-        let isValid = true;   
+        let isValid = true;  
+        
+        if (typeof input["name"] !== "undefined") {            
+            var pattern = new RegExp(/^[a-zA-Z]{2,}.[a-zA-Z0-9$]*/);
+            // var pattern = new RegExp(/^[a-zA-Z].{3,}[a-zA-Z0-9$]+$/);
+            if (!pattern.test(input["name"])) {
+              isValid = false;
+              errors["name"] = "Please enter valid name.";
+            }
+        }
         
         if ( typeof input["quantity"] !== "undefined") {
             if(this.state.product.quantity==0){
@@ -122,6 +131,7 @@ class EditProduct extends React.Component {
                         {submitted && !product.name &&
                             <div className="text-danger">Name is required</div>
                         }
+                        <div className="text-danger">{this.state.errors.name}</div>
                     </div>
                     <div className={'col-md-5 form-group' + (submitted && !product.brand ? ' has-error' : '')}>
                         <label htmlFor="brand">Brand</label>

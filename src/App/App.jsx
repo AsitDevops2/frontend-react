@@ -9,7 +9,7 @@ import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
 import { ResetPasswordPage } from '../ResetPwdPage';
-import { AddUser, EditPage, UserList, ProductList,  AddProduct, UpdateProduct, AddCategory ,CategoryList, EditProduct} from '../_components/index';
+import { AddUser, EditPage, UserList, ProductList,  AddProduct, AddCategory ,CategoryList, EditProduct} from '../_components/index';
 import { ProfilePage } from '../_components/ProfilePage/ProfilePage';
 import { ChartPage } from '../_components/ChartPage/ChartPage';
 
@@ -112,7 +112,6 @@ class App extends React.Component {
                                 <Route path="/editPage" component={EditPage}/>
                                 <Route path="/addUser" component={AddUser}/>
                                 <Route path="/productList" component={ProductList}/>
-                                <Route path="/updateProduct" component={UpdateProduct}/>
                                 <Route path="/addProduct" component={AddProduct}/>   
                                 <Route path="/chart" component={ChartPage}/>                             
                                 <Route path="/category" component={CategoryList}/>
@@ -282,7 +281,6 @@ class App extends React.Component {
                                         <Route path="/register" component={RegisterPage} />
                                         <Route path="/resetPwd" component={ResetPasswordPage} />
                                         <Route path="/productList" component={ProductList}/>
-                                        <Route path="/updateProduct" component={UpdateProduct}/>
                                         <Route path="/addProduct" component={AddProduct}/>
                                         <Route path="/chart" component={ChartPage}/>
                                         <Route path="/category" component={CategoryList}/>
