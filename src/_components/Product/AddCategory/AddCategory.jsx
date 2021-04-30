@@ -6,11 +6,12 @@ import { categoryActions } from '../../../_actions';
 class AddCategory extends React.Component {
     constructor(props) {
         super(props);
+        let loggedUser = JSON.parse(localStorage.getItem('user'));
         this.state = {
             category: {
                 name:'',
-                description:''
-                
+                description:'',
+                userId:loggedUser.id
             },
             submitted: false,
             errors: {}
@@ -37,16 +38,18 @@ class AddCategory extends React.Component {
         let isValid = true; 
         
         if (typeof input["name"] !== "undefined") {            
-            var pattern = new RegExp(/[^a-zA-Z]*/);
-            if (!pattern.test(input["name"]) && !input["name"].length < 3) {
+            var pattern = new RegExp(/^[a-zA-Z]{2,}.[a-zA-Z0-9$]*/);
+            // var pattern = new RegExp(/^[a-zA-Z].{3,}[a-zA-Z0-9$]+$/);
+            if (!pattern.test(input["name"])) {
               isValid = false;
               errors["name"] = "Please enter valid name.";
             }
         }
 
         if (typeof input["description"] !== "undefined") {            
-            var pattern = new RegExp(/[^a-zA-Z]*/);
-            if (!pattern.test(input["description"]) && !input["description"].length < 3) {
+            var pattern = new RegExp(/^[a-zA-Z]{2,}.[a-zA-Z0-9$]*/);
+            // var pattern = new RegExp(/^[a-zA-Z].{3,}[a-zA-Z0-9$]+$/);
+            if (!pattern.test(input["description"])) {
               isValid = false;
               errors["description"] = "Please enter valid description.";
             }

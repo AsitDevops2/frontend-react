@@ -70,6 +70,28 @@ class EditProduct extends React.Component {
               errors["name"] = "Please enter valid name.";
             }
         }
+
+        if (typeof input["supplier"] !== "undefined") {            
+            var pattern = new RegExp(/^[a-zA-Z]{2,}.[a-zA-Z0-9$]*/);
+            if (!pattern.test(input["supplier"])) {
+              isValid = false;
+              errors["supplier"] = "Please enter valid supplier.";
+            }
+        }
+        if (typeof input["description"] !== "undefined") {            
+            var pattern = new RegExp(/^[a-zA-Z]{2,}.[a-zA-Z0-9$]*/);
+            if (!pattern.test(input["description"])) {
+              isValid = false;
+              errors["description"] = "Please enter valid description.";
+            }
+        }
+        if (typeof input["brand"] !== "undefined") {            
+            var pattern = new RegExp(/^[a-zA-Z]{2,}.[a-zA-Z0-9$]*/);
+            if (!pattern.test(input["brand"])) {
+              isValid = false;
+              errors["brand"] = "Please enter valid brand.";
+            }
+        }
         
         if ( typeof input["quantity"] !== "undefined") {
             if(this.state.product.quantity==0){
@@ -103,13 +125,10 @@ class EditProduct extends React.Component {
     }
 
     render() {
-        // if(this.props.products && this.props.products.product)
-        //   this.state.product = this.props.products.product;
 
         const margin = {margin:'auto'};
         const { product, submitted } = this.state;
         const alignment ={marginLeft:'10%'};
-        // let loggedUser = JSON.parse(localStorage.getItem('product'));
         let categories={items:[]};
         if(this.props.categories != null && this.props.categories.items != null){
             categories = this.props.categories;
@@ -139,6 +158,7 @@ class EditProduct extends React.Component {
                         {submitted && !product.brand &&
                             <div className="text-danger">Brand is required</div>
                         }
+                        <div className="text-danger">{this.state.errors.brand}</div>
                     </div>
                 
                 </div>
@@ -150,7 +170,7 @@ class EditProduct extends React.Component {
                         {submitted && !product.description &&
                             <div className="text-danger">Product Description is required</div>
                         }
-
+                        <div className="text-danger">{this.state.errors.description}</div>
                     </div>
                     <div className={'col-md-5 form-group' + (submitted && !product.quantity ? ' has-error' : '')}>
                         <label htmlFor="quantity">Quantity</label>
@@ -175,10 +195,6 @@ class EditProduct extends React.Component {
                     </div>
                     <div className={'col-md-5 form-group' + (submitted && !product.category ? ' has-error' : '')}>
                         <label htmlFor="category">Category</label>
-                            {/* <option value="">Choose Category</option>
-                            <option value="Electronics">Electronics</option>
-                            <option value="Mobiles">Mobiles</option>
-                            <option value="Appliances">Appliances</option> */}
                             {<select className="form-control" name="category" value={product.category} onChange={this.handleChange}>
                                 <option value="">Choose Category</option>
                                 {optionItems}
@@ -196,6 +212,7 @@ class EditProduct extends React.Component {
                         {submitted && !product.supplier &&
                             <div className="text-danger">Supplier is required</div>
                         }
+                        <div className="text-danger">{this.state.errors.supplier}</div>
                     </div>
                     <div className="col-md-5 form-group">
                     <div style={{marginTop: "10%"}}></div>

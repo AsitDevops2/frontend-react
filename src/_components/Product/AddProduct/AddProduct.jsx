@@ -25,8 +25,17 @@ class AddProduct extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentDidMount() {
-        this.props.getCategory();
+        //this.props.getCategory();
         // console.log(this.props.getAll());
+        let loggedUser = JSON.parse(localStorage.getItem('user'));
+        if(loggedUser.id==1)
+        {
+            this.props.getCategory();
+        }
+        else
+        {
+            this.props.getCategoryByUser(loggedUser.id);
+        }
     }
 
     handleChange(event) {
@@ -54,21 +63,21 @@ class AddProduct extends React.Component {
         }
 
         if (typeof input["supplier"] !== "undefined") {            
-            var pattern = new RegExp(/[^a-zA-Z]*/);
+            var pattern = new RegExp(/^[a-zA-Z]{2,}.[a-zA-Z0-9$]*/);
             if (!pattern.test(input["supplier"])) {
               isValid = false;
               errors["supplier"] = "Please enter valid supplier.";
             }
         }
         if (typeof input["description"] !== "undefined") {            
-            var pattern = new RegExp(/[^a-zA-Z]*/);
+            var pattern = new RegExp(/^[a-zA-Z]{2,}.[a-zA-Z0-9$]*/);
             if (!pattern.test(input["description"])) {
               isValid = false;
               errors["description"] = "Please enter valid description.";
             }
         }
         if (typeof input["brand"] !== "undefined") {            
-            var pattern = new RegExp(/[^a-zA-Z]*/);
+            var pattern = new RegExp(/^[a-zA-Z]{2,}.[a-zA-Z0-9$]*/);
             if (!pattern.test(input["brand"])) {
               isValid = false;
               errors["brand"] = "Please enter valid brand.";
@@ -216,7 +225,8 @@ function mapState(state) {
 
 const actionCreators = {
     add: productActions.addProduct,
-    getCategory: categoryActions.getAllCategory
+    getCategory: categoryActions.getAllCategory,
+    getCategoryByUser:categoryActions.getCategoryByUser
 }
 
 const connectedAddProduct = connect(mapState, actionCreators)(AddProduct);

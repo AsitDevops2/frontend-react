@@ -12,7 +12,16 @@ class UserList extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getAll();
+        let loggedUser = JSON.parse(localStorage.getItem('user'));
+
+        if(loggedUser.id==1)
+        {
+            this.props.getAll();
+        }
+        else
+        {
+            this.props.getByParent(loggedUser.id);
+        }
     }
 
 
@@ -49,7 +58,6 @@ class UserList extends React.Component {
                     </thead>
                     <tbody>
                         {users.items.map((user, id) => {
-                            if (loggedUser.id == user.parent) {
                                 return (
                                     <tr key={user.id}>
                                         <td>{user.firstName + ' ' + user.lastName}</td>
@@ -64,7 +72,6 @@ class UserList extends React.Component {
                                         </td>
                                     </tr>
                                 )
-                            }
 
                         })}
                     </tbody>
@@ -84,7 +91,8 @@ function mapState(state) {
 
 const actionCreators = {
     getAll: userActions.getAll,
-    deleteRecord: userActions.delete
+    deleteRecord: userActions.delete,
+    getByParent: userActions.getByParent
 }
 
 const connectedUserList = connect(mapState, actionCreators)(UserList);
