@@ -31,7 +31,11 @@ class ProductList extends React.Component {
     }   
    
     componentDidMount() {
-        this.props.getAll();
+        let loggedUser = JSON.parse(localStorage.getItem('user'));
+        if(loggedUser.role=="super_admin")
+            this.props.getAll();
+        else
+            this.props.getAllByParent(loggedUser.id);
     }
 
     displayBlock(){
@@ -69,10 +73,6 @@ class ProductList extends React.Component {
         let text = e.target.value.toLowerCase();
         let arr = JSON.parse(JSON.stringify(this.props.products.items));
         if (text.length>=1) {
-            // let data = arr.filter(obj => Object.values(obj).some(val =>{
-            //     console.log(val);
-            //    return val.toString().toLowerCase().includes(text.toLowerCase());
-            //}));
              let data = arr.filter(obj =>{
                return obj.name.toLowerCase().includes(text) || obj.brand.toLowerCase().includes(text) || obj.category.toLowerCase().includes(text) ||
                 obj.price.toString().includes(text) || obj.quantity.toString().includes(text) ;
@@ -135,19 +135,6 @@ class ProductList extends React.Component {
                 <Link to="/addProduct" className="btn btn-primary">Add Product</Link>
                 </div>                
                 </div>
-                {this.state.show && <div>
-                    <table className="table">
-                        <thead>
-                        <tr>
-                            <th><input type="text" className="form-control" value={this.state.filterObj.name} name="name" placeholder="Name" onChange={this.handleChange} onKeyUp={this.columnSearch}></input></th>
-                            <th><input type="text" className="form-control" value={this.state.filterObj.brand} name="brand"  placeholder="Brand" onChange={this.handleChange} onKeyUp={this.columnSearch}></input></th>
-                            <th><input type="text" className="form-control" value={this.state.filterObj.quantity} name="quantity"  placeholder="Quantity" onChange={this.handleChange} onKeyUp={this.columnSearch} onKeyDown={blockInvalidChar}></input></th>
-                            <th><input type="text" className="form-control" value={this.state.filterObj.price} name="price"  placeholder="Price" onChange={this.handleChange} onKeyUp={this.columnSearch} onKeyDown={blockInvalidChar}></input></th>
-                            <th><input type="text" className="form-control" value={this.state.filterObj.category} name="category"  placeholder="Category" onChange={this.handleChange} onKeyUp={this.columnSearch}></input></th>
-                        </tr>
-                        </thead>
-                    </table>
-                </div>}        
                 <table className="table table-bordered">
                 <thead>
                 <tr>
@@ -157,8 +144,25 @@ class ProductList extends React.Component {
                     <th>Quantity</th>
                     <th>Price</th>
                     <th>Category</th>
-                    <th>Actions<FontAwesomeIcon style={{marginLeft: '7%'}} icon={faFilter} onClick={this.displayBlock}/></th>
+                    <th style={{width:'12%'}}>Actions<FontAwesomeIcon icon={faFilter} style={{marginLeft:'5px'}} onClick={this.displayBlock}/></th>
                 </tr>
+                
+                {this.state.show && <tr>
+                    {/* <table className="table"> */}
+                        {/* <thead> */}
+                        {/* <tr> */}
+                             <th></th>
+                            <th><input type="text" className="form-control" value={this.state.filterObj.name} name="name" placeholder="Name" onChange={this.handleChange} onKeyUp={this.columnSearch}></input></th>
+                            <th><input type="text" className="form-control" value={this.state.filterObj.brand} name="brand"  placeholder="Brand" onChange={this.handleChange} onKeyUp={this.columnSearch}></input></th>
+                            <th><input type="text" className="form-control" value={this.state.filterObj.quantity} name="quantity"  placeholder="Quantity" onChange={this.handleChange} onKeyUp={this.columnSearch} onKeyDown={blockInvalidChar}></input></th>
+                            <th><input type="text" className="form-control" value={this.state.filterObj.price} name="price"  placeholder="Price" onChange={this.handleChange} onKeyUp={this.columnSearch} onKeyDown={blockInvalidChar}></input></th>
+                            <th><input type="text" className="form-control" value={this.state.filterObj.category} name="category"  placeholder="Category" onChange={this.handleChange} onKeyUp={this.columnSearch}></input></th>
+                            <th></th>
+                        {/* </tr> */}
+                        {/* </thead> */}
+                    {/* </table> */}
+                </tr>}        
+        
                 </thead>      
                 <tbody>
                     {this.state.data.map((product, index) => {
@@ -173,9 +177,10 @@ class ProductList extends React.Component {
                                 <td>{product.category}</td>
                                 
                                 <td>
-                                <Link to={{pathname: `/editProduct/${product._id}`}} className="btn btn-success" style={{marginLeft: '10px'}}><FontAwesomeIcon icon={faEdit}/></Link> 
-                                <button  className="btn btn-danger" onClick={()=>this.deleteRecord(product._id)} style={{marginLeft: '10px'}}><FontAwesomeIcon icon={faTrashAlt}/></button>
-                                
+                                <Link style={{marginLeft:'10px'}} to={{pathname: `/editProduct/${product._id}`}}><FontAwesomeIcon style={{color:'#4CAF50'}} icon={faEdit} size="lg"/></Link> 
+                                <Link style={{marginLeft:'10px'}} onClick={()=>this.deleteRecord(product._id)} ><FontAwesomeIcon style={{color:'#d9534f'}} icon={faTrashAlt} size="lg"/></Link>
+                                {/* <button style={{height:'35px',width:'40px'}} to={{pathname: `/editProduct/${product._id}`}} className="btn btn-success"><FontAwesomeIcon icon={faEdit}/></button> 
+                                <button style={{height:'35px',width:'40px',marginLeft:'5px'}} onClick={()=>this.deleteRecord(product._id)} className="btn btn-danger"><FontAwesomeIcon icon={faTrashAlt}/></button> */}
                                 </td>
                             </tr>
                             
@@ -217,6 +222,7 @@ function mapState(state) {
 
 const actionCreators = {
     getAll: productActions.getAll,
+    getAllByParent: productActions.getAllByParent,
     deleteRecord: productActions.delete
 }
 

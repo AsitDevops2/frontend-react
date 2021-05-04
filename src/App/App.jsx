@@ -231,7 +231,7 @@ class App extends React.Component {
 
                                         </div>                                      
 
-                                        {(user.role=='admin') &&
+                                        {(user.role=='admin' || user.role=='super_admin') &&
                                             <a href="/user" className="bg-primary list-group-item list-group-item-action">
                                                 <div className="d-flex w-100 justify-content-start align-items-center">
                                                     <span className="fa fa-tasks fa-fw mr-3" />
@@ -272,7 +272,7 @@ class App extends React.Component {
                                         <PrivateRoute path="/user" component={UserList}/>
                                         <Route path="/login" component={LoginPage} />
                                         {/* <Redirect from="*" to="/" /> */}
-                                        {(user.role=='admin') &&
+                                        {(user.role=='admin' || user.role=='super_admin') &&
                                             <Route path="/user" component={UserList}/>
                                         }
                                         
@@ -287,7 +287,7 @@ class App extends React.Component {
                                         <Route path="/addCategory" component={AddCategory}/>
                                         <Route path="/editProduct" component={EditProduct}/>
                                         
-                                        {(user.role=='admin') &&
+                                        {(user.role=='admin' || user.role=='super_admin') &&
                                             <Redirect from="*" to="/user" />
                                         }
                                         {(user.role=='normal') &&

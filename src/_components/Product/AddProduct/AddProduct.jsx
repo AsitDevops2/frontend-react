@@ -7,6 +7,7 @@ import { categoryActions, productActions } from '../../../_actions';
 class AddProduct extends React.Component {
     constructor(props) {
         super(props);
+        let loggedUser = JSON.parse(localStorage.getItem('user'));
         this.state = {
             product: {
                 name:'',
@@ -15,7 +16,8 @@ class AddProduct extends React.Component {
                 quantity:'',
                 price:'',
                 category:'',
-                supplier:''
+                supplier:'',
+                userId:loggedUser.id
             },
             submitted: false,
             errors: {}
@@ -25,17 +27,11 @@ class AddProduct extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentDidMount() {
-        //this.props.getCategory();
-        // console.log(this.props.getAll());
         let loggedUser = JSON.parse(localStorage.getItem('user'));
-        if(loggedUser.id==1)
-        {
+        if(loggedUser.role=="super_admin")
             this.props.getCategory();
-        }
         else
-        {
             this.props.getCategoryByUser(loggedUser.id);
-        }
     }
 
     handleChange(event) {
@@ -63,7 +59,7 @@ class AddProduct extends React.Component {
         }
 
         if (typeof input["supplier"] !== "undefined") {            
-            var pattern = new RegExp(/^[a-zA-Z]{2,}.[a-zA-Z0-9$]*/);
+            var pattern = new RegExp(/^[a-zA-Z]{1,}.[a-zA-Z0-9$]*/);
             if (!pattern.test(input["supplier"])) {
               isValid = false;
               errors["supplier"] = "Please enter valid supplier.";
@@ -77,7 +73,7 @@ class AddProduct extends React.Component {
             }
         }
         if (typeof input["brand"] !== "undefined") {            
-            var pattern = new RegExp(/^[a-zA-Z]{2,}.[a-zA-Z0-9$]*/);
+            var pattern = new RegExp(/^[a-zA-Z]{1,}.[a-zA-Z0-9$]*/);
             if (!pattern.test(input["brand"])) {
               isValid = false;
               errors["brand"] = "Please enter valid brand.";

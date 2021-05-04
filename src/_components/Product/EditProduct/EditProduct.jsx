@@ -41,7 +41,12 @@ class EditProduct extends React.Component {
     
     componentDidMount() {
         this.props.getById(this.state.productId);
-        this.props.getCategory();
+        
+        let loggedUser = JSON.parse(localStorage.getItem('user'));
+        if(loggedUser.role=="super_admin")
+            this.props.getCategory();
+        else
+            this.props.getCategoryByUser(loggedUser.id);
     }
 
 
@@ -236,7 +241,8 @@ function mapState(state) {
 const actionCreators = {
   getById: productActions.getById,
   updateProduct: productActions.updateProduct,
-  getCategory: categoryActions.getAllCategory
+  getCategory: categoryActions.getAllCategory,
+  getCategoryByUser:categoryActions.getCategoryByUser
 }
 
 const connectedEditProduct = connect(mapState, actionCreators)(EditProduct);

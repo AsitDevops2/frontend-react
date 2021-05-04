@@ -6,6 +6,7 @@ import { history } from '../_helpers';
 export const productActions = {
     addProduct,
     getAll,
+    getAllByParent,
     getById,
     updateProduct,
     delete: _delete,
@@ -49,6 +50,22 @@ function getAll() {
             );
     };
     
+    function request() { return { type: productConstants.GETALL_REQUEST } }
+    function success(products) { return { type: productConstants.GETALL_SUCCESS, products } }
+    function failure(error) { return { type: productConstants.GETALL_FAILURE, error } }
+}
+
+function getAllByParent(id) {
+    return dispatch => {
+        dispatch(request(id));
+
+        productService.getAllByParent(id)
+        .then(
+            products => dispatch(success(products)),
+            error => dispatch(failure(error.toString()))
+        );
+    };
+
     function request() { return { type: productConstants.GETALL_REQUEST } }
     function success(products) { return { type: productConstants.GETALL_SUCCESS, products } }
     function failure(error) { return { type: productConstants.GETALL_FAILURE, error } }

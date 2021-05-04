@@ -4,6 +4,7 @@ import { authHeader } from '../_helpers';
 export const productService = {
     addProduct,
     getAll,
+    getAllByParent,
     getById,
     updateProduct,
     delete: _delete,
@@ -22,6 +23,14 @@ function getAll() {
     return fetch(`${config.invUrl}/product/list`, requestOptions).then(handleResponse);
 }
 
+
+function getAllByParent(id) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    return fetch(`${config.invUrl}/product/list/byParent/${id}`,requestOptions).then(handleResponse);
+}
 
 
 function addProduct(product) {
@@ -90,33 +99,3 @@ function handleResponse(response) {
         return data;
     });
 }
-// function editUser(id){
-//     const requestOptions = {
-//         method: 'GET',
-//         headers: { ...authHeader(), 'Content-Type': 'application/json' },
-//         // body: JSON.stringify(product)
-//     };
-
-//     return fetch(`${config.apiUrl}/product/getUser/${id}`, requestOptions).then(handleResponse);;
-
-// }
-
-
-
-// function getAllCategory() {
-//     const requestOptions = {
-//         method: 'GET',
-//         headers: authHeader()
-//     };
-//     return fetch(`${config.invUrl}/product/category/findAll`, requestOptions).then(handleResponse);
-// }
-
-// function addCategory(category) {
-//     const requestOptions = {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify(category)
-//     };
-//     return fetch(`${config.invUrl}/product/addCategory`, requestOptions).then(handleResponse);
-// }
-

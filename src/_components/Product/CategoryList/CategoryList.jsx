@@ -21,7 +21,7 @@ class CategoryList extends React.Component {
    
     componentDidMount() {
         let loggedUser = JSON.parse(localStorage.getItem('user'));
-        if(loggedUser.id==1)
+        if(loggedUser.role=="super_admin")
             this.props.getAll();
         else
             this.props.getByUser(loggedUser.id);
@@ -48,7 +48,7 @@ class CategoryList extends React.Component {
                 <tr>
                     <th>Name</th>
                     <th>Description</th>
-                    <th>Action</th>
+                    <th style={{textAlign:'center'}}>Action</th>
                 </tr>
                 </thead>                
                 <tbody>
@@ -59,7 +59,8 @@ class CategoryList extends React.Component {
                                 <td>{category.name}</td>   
                                 <td>{category.description}</td>
                                 <td>
-                                    <button className="btn btn-danger" onClick={() => this.deleteCategory(category._id)} style={{ marginLeft: '10px',width:'40%'}}><FontAwesomeIcon icon={faTrashAlt} /></button>
+                                    <Link onClick={() => this.deleteCategory(category._id)} style={{ marginLeft: '45%'}}><FontAwesomeIcon style={{color:'#d9534f'}} icon={faTrashAlt} size="lg"/></Link>
+                                    {/* <button style={{height:'35px',width:'40px',marginLeft:'5px'}} onClick={()=>this.this.deleteCategory(category._id)} className="btn btn-danger"><FontAwesomeIcon icon={faTrashAlt}/></button> */}
                                 </td>
                             </tr>                            
                         )                      
