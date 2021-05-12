@@ -77,7 +77,7 @@ class EditProduct extends React.Component {
         }
 
         if (typeof input["supplier"] !== "undefined") {            
-            var pattern = new RegExp(/^[a-zA-Z]{2,}.[a-zA-Z0-9$]*/);
+            var pattern = new RegExp(/^[a-zA-Z]{1,}.[a-zA-Z0-9$]*/);
             if (!pattern.test(input["supplier"])) {
               isValid = false;
               errors["supplier"] = "Please enter valid supplier.";
@@ -91,7 +91,7 @@ class EditProduct extends React.Component {
             }
         }
         if (typeof input["brand"] !== "undefined") {            
-            var pattern = new RegExp(/^[a-zA-Z]{2,}.[a-zA-Z0-9$]*/);
+            var pattern = new RegExp(/^[a-zA-Z]{1,}.[a-zA-Z0-9$]*/);
             if (!pattern.test(input["brand"])) {
               isValid = false;
               errors["brand"] = "Please enter valid brand.";
